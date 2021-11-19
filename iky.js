@@ -60,7 +60,6 @@ const { y2mateA, y2mateV } = require('./lib/y2mate')
 const { ythd } = require('./lib/ytdl')
 const premium = require("./lib/premium");
 const afk = require("./lib/afk");
-const level = require("./lib/level");
 const atm = require("./lib/atm");
 
 const _sewa = require("./lib/sewa");
@@ -96,8 +95,6 @@ let register = JSON.parse(fs.readFileSync('./database/user/registered.json'))
 let welkom = JSON.parse(fs.readFileSync('./database/group/welcome.json'))
 let _premium = JSON.parse(fs.readFileSync('./database/user/premium.json'));
 let _afk = JSON.parse(fs.readFileSync('./database/user/afk.json'));
-let _leveling = JSON.parse(fs.readFileSync('./database/group/leveling.json'))
-let _level = JSON.parse(fs.readFileSync('./database/user/level.json'))
 let _uang = JSON.parse(fs.readFileSync('./database/user/uang.json'))
 let glimit = JSON.parse(fs.readFileSync('./database/user/glimit.json'));
 let antilink = JSON.parse(fs.readFileSync('./database/group/antilink.json'));
@@ -566,51 +563,6 @@ const isImage = (type === 'imageMessage')
         if(time2 < "05:00:00"){
         var ucapanWaktu = 'Selamat Malam🌌'
 }
-         const levelRole = level.getLevelingLevel(sender, _level)
-        var role = 'Warrior III'
-        if (levelRole <= 5) {
-            role = 'Warrior II'
-        } else if (levelRole <= 10) {
-            role = 'Warrior I'
-        } else if (levelRole <= 15) {
-            role = 'Elite III'
-        } else if (levelRole <= 20) {
-            role = 'Elite II'
-        } else if (levelRole <= 25) {
-            role = 'Elite I'
-        } else if (levelRole <= 30) {
-            role = 'Master III'
-        } else if (levelRole <= 35) {
-            role = 'Master II'
-        } else if (levelRole <= 40) {
-            role = 'Master I'
-        } else if (levelRole <= 45) {
-            role = 'GrandMaster III'
-        } else if (levelRole <= 50) {
-            role = 'GrandMaster II'
-        } else if (levelRole <= 55) {
-            role = 'GrandMaster I'
-        } else if (levelRole <= 60) {
-            role = 'Epic III'
-        } else if (levelRole <= 65) {
-            role = 'Epic II'
-        } else if (levelRole <= 70) {
-            role = 'Epic I'
-        } else if (levelRole <= 75) {
-            role = 'Legend III'
-        } else if (levelRole <= 80) {
-            role = 'Legend II'
-        } else if (levelRole <= 85) {
-            role = 'Legend I'
-        } else if (levelRole <= 90) {
-            role = 'Mythic'
-        } else if (levelRole <= 95) {
-            role = 'Mythical Glory' 
-        } else if (levelRole >= 100) {
-            role = 'Immortal'
-        } else if (levelRole >= 120) {
-            role = 'MVP'
-        } 
         ////DAFTAR BUTTON BY IKY
       const daftar1 = `Hai kak  ${pushname} ${ucapanWaktu} \n\nSebelum Menggunakan ミケルVerify Terlebih Dahulu Ya `
        const daftar2 = '```Ketik Tombol Di Bawah Untuk Verify Kak\nUntuk Wa Mod Silahkan .verify\nミケル```'
@@ -636,25 +588,6 @@ const isImage = (type === 'imageMessage')
             type: 1,
           },]
       // FUNCTION LEVELING
-       if (isGroup && !kyy.key.fromMe && !level.isGained(sender) && isLevelingOn) {
-       try {
-       level.addCooldown(sender)
-       const checkATM = atm.checkATMuser(sender, _uang)
-       if (checkATM === undefined) atm.addATM(sender, _uang)
-       const uangsaku = Math.floor(Math.random() * (15 - 25 + 1) + 20)
-       atm.addKoinUser(sender, uangsaku, _uang)
-       const currentLevel = level.getLevelingLevel(sender, _level)
-       const amountXp = Math.floor(Math.random() * (15 - 25 + 1) + 20)
-       const requiredXp = 10 * Math.pow(currentLevel, 2) + 50 * currentLevel + 100
-       level.addLevelingXp(sender, amountXp, _level)
-       if (requiredXp <= level.getLevelingXp(sender, _level)) {
-       level.addLevelingLevel(sender, 1, _level)
-       const userLevel = level.getLevelingLevel(sender, _level)
-       const fetchXp = 10 * Math.pow(userLevel, 2) + 50 * userLevel + 100
-       reply(`*『 LEVEL UP 』*\n\n➸ *Nama :* ${pushname}\n➸ *Xp :* ${level.getLevelingXp(sender, _level)} / ${fetchXp}\n➸ *Level :* ${currentLevel} -> ${level.getLevelingLevel(sender, _level)} 🆙 \n➸ *Role*: *${role}*\n\nCongrats!! 🎉🎉`)
-} 
-       } catch (err) {
-       console.error(err)
 }
 }
         colors = ['red', 'white', 'black', 'blue', 'yellow', 'green']
@@ -1185,7 +1118,6 @@ ${ucapanWaktu} Kak ${pushname} ☺️
 │•🦈 *Bio Info:* ${thu.status}
 │•🦈 *User*: ${isPremium ? 'Premium User' : 'Free User'}
 │•🦈 *Admin*: ${isGroupAdmins ? 'Ya' : 'No'}
-│•🦈 *Level*: ${Levelnye}
 │•🦈 *XP*: ${Xpluu} / ${requiredXplu}
 ╰───────────────
 
@@ -2936,7 +2868,6 @@ Made With ❤️ in Jateng,Indonesia
     
 𝐋𝐈𝐒𝐓 𝐌𝐄𝐍𝐔
 🐟  ${prefix}update
-🐟  ${prefix}level
 🐟  ${prefix}rules
 🐟  ${prefix}profile
 🐟  ${prefix}waktu
